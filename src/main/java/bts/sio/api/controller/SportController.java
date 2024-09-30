@@ -65,6 +65,11 @@ public class SportController {
                 currentSport.setNom(nom);
             }
 
+            String descriptif = sport.getDescriptif();
+            if(descriptif != null) {
+                currentSport.setDescriptif(descriptif);
+            }
+
             sportService.saveSport(currentSport);
             return currentSport;
         } else {
