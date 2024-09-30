@@ -14,5 +14,8 @@ public class Epreuve {
     @Column(name="libelle")
     private String libelle;
 
+    @ManyToOne
+    @JoinColumn(name = "sport_id")
+    private Sport sport;
 }
 
