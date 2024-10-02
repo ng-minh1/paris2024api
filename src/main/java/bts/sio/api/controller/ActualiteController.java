@@ -15,6 +15,17 @@ public class ActualiteController {
     private ActualiteService actualiteService;
 
     /**
+     * Create - Add a new actualite
+     * @param actualite An object actualite
+     * @return The actualite object saved
+     */
+    @PostMapping("/actualite")
+    public Actualite createActualite(@RequestBody Actualite actualite) {
+        return actualiteService.saveActualite(actualite);
+    }
+
+
+    /**
      * Read - Get one actualite
      * @param id The id of the actualite
      * @return An Actualite object full filled
