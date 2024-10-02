@@ -11,10 +11,14 @@ import java.util.Optional;
 @Service
 public class ActualiteService {
     @Autowired
-    private ActualiteRepository actualiteRepository;
+    private ActualiteRepository ActualiteRepository;
 
-    public Optional<Actualite> getActualite(final Long id) { return actualiteRepository.findById(id); }
+    public Optional<Actualite> getActualite(final Long id) { return ActualiteRepository.findById(id); }
 
-    public Iterable<Actualite> getActualites() { return actualiteRepository.findAll(); }
+    public Iterable<Actualite> getActualites() { return ActualiteRepository.findAll(); }
 
+    public Actualite saveActualite(Actualite actualite) {
+        Actualite savedActualite = ActualiteRepository.save(actualite);
+        return savedActualite;
+    }
 }
