@@ -17,6 +17,10 @@ public class ActualiteService {
 
     public Iterable<Actualite> getActualites() { return ActualiteRepository.findAll(); }
 
+    public void deleteActualite(final Long id) {
+        ActualiteRepository.deleteById(id);
+    }
+
     public Actualite saveActualite(Actualite actualite) {
         Actualite savedActualite = ActualiteRepository.save(actualite);
         return savedActualite;

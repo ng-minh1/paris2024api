@@ -78,6 +78,12 @@ public class ActualiteController {
             return currentActualite;
         } else {
             return null;
+
+
         }
+    }
+    @DeleteMapping("/actualite/{id}")
+    public void deleteActualite(@PathVariable("id") final Long id) {
+        actualiteService.deleteActualite(id);
     }
 }
