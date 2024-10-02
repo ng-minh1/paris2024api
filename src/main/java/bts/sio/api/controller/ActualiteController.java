@@ -49,4 +49,35 @@ public class ActualiteController {
         return actualiteService.getActualites();
     }
 
+    /**
+     * Update - Update an existing actualite
+     * @param id - The id of the actualite to update
+     * @param actualite - The actualite object updated
+     * @return
+     */
+    @PutMapping("/actualite/{id}")
+    public Actualite updateActualite(@PathVariable("id") final Long id, @RequestBody Actualite actualite) {
+        Optional<Actualite> e = actualiteService.getActualite(id);
+        if(e.isPresent()) {
+            Actualite currentActualite = e.get();
+
+            String titre = actualite.getTitre();
+            if(titre != null) {
+                currentActualite.setTitre(titre);
+            }
+            String contenu = actualite.getContenu();
+            if(contenu != null) {
+                currentActualite.setContenu(contenu);;
+            }
+            Sport sport = actualite.getSport();
+            if(sport != null) {
+                currentActualite.setSport(sport);;
+            }
+
+            actualiteService.saveActualite(currentActualite);
+            return currentActualite;
+        } else {
+            return null;
+        }
+    }
 }
