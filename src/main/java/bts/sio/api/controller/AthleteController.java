@@ -7,6 +7,7 @@ import bts.sio.api.service.AthleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -85,8 +86,6 @@ public class AthleteController {
             return null;
         }
     }
-
-
     /**
      * Delete - Delete an athlete
      * @param id - The id of the athlete to delete
@@ -96,4 +95,8 @@ public class AthleteController {
         athleteService.deleteAthlete(id);
     }
 
+    @GetMapping("/athletes/sport/{sportId}")
+    public List<Athlete> getAthletesBySport(@PathVariable("sportId") Long sportId) {
+        return athleteService.getAthletesBySport(sportId);
+    }
 }

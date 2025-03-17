@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Data
 @Service
@@ -28,5 +29,9 @@ public class AthleteService {
     public Athlete saveAthlete(Athlete athlete) {
         Athlete savedAthlete = athleteRepository.save(athlete);
         return savedAthlete;
+    }
+
+    public List<Athlete> getAthletesBySport(Long sportId) {
+        return athleteRepository.findBySportId(sportId); // Appel de la méthode repository
     }
 }
