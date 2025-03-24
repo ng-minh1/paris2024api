@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,11 +21,15 @@ public class Joueur {
     @Column(name="prenom")
     private String prenom;
 
-    @Column(name="datedenaiss")
+    @Column(name="datenaiss")
     private LocalDate dateDeNaiss;
 
     @ManyToOne
-    @JoinColumn(name = "niv_id")
+    @JoinColumn(name = "niveau_id")
     private Niveau niveau;
+
+    @ManyToOne
+    @JoinColumn(name = "sport_id")
+    private Sport sport;
 
 }
