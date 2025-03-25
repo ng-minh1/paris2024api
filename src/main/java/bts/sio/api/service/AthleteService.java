@@ -34,4 +34,8 @@ public class AthleteService {
     public List<Athlete> getAthletesBySport(Long sportId) {
         return athleteRepository.findBySportId(sportId); // Appel de la méthode repository
     }
+
+    public List<Athlete> getAthletesByPays(Long paysId) {
+        return athleteRepository.findByPaysId(paysId); // Appel de la méthode repository
+    }
 }

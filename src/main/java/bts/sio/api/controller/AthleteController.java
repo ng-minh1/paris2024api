@@ -99,4 +99,9 @@ public class AthleteController {
     public List<Athlete> getAthletesBySport(@PathVariable("sportId") Long sportId) {
         return athleteService.getAthletesBySport(sportId);
     }
+
+    @GetMapping("/athletes/pays/{paysId}")
+    public List<Athlete> getAthletesByPays(@PathVariable("paysId") Long paysId) {
+        return athleteService.getAthletesByPays(paysId);
+    }
 }
