@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface AthleteRepository extends CrudRepository<Athlete, Long> {
     List<Athlete> findBySportId(Long sportId);
+    List<Athlete> findByPaysId(Long paysId);
 
 }
