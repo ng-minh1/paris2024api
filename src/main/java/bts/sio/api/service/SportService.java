@@ -27,7 +27,9 @@ public class SportService {
     }
 
     public Sport saveSport(Sport sport) {
-        Sport savedSport = sportRepository.save(sport);
-        return savedSport;
+        if (sport.getId() == 0) {
+            sport.setId(null);
+        }
+        return sportRepository.save(sport);
     }
 }
