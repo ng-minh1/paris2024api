@@ -27,8 +27,10 @@ public class AthleteService {
     }
 
     public Athlete saveAthlete(Athlete athlete) {
-        Athlete savedAthlete = athleteRepository.save(athlete);
-        return savedAthlete;
+        if (athlete.getId() == 0) {
+            athlete.setId(null);
+        }
+        return athleteRepository.save(athlete);
     }
 
     public List<Athlete> getAthletesBySport(Long sportId) {
