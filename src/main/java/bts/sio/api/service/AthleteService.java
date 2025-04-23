@@ -1,6 +1,7 @@
 package bts.sio.api.service;
 
 import bts.sio.api.model.Athlete;
+import bts.sio.api.model.Sport;
 import bts.sio.api.repository.AthleteRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,10 @@ public class AthleteService {
     }
 
     public Athlete saveAthlete(Athlete athlete) {
-        Athlete savedAthlete = athleteRepository.save(athlete);
-        return savedAthlete;
+        if (athlete.getId() == 0) {
+            athlete.setId(null);
+        }
+        return athleteRepository.save(athlete);
     }
 
     public List<Athlete> getAthletesBySport(Long sportId) {
