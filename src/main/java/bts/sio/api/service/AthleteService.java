@@ -1,7 +1,6 @@
 package bts.sio.api.service;
 
 import bts.sio.api.model.Athlete;
-import bts.sio.api.model.Sport;
 import bts.sio.api.repository.AthleteRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
