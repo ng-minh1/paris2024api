@@ -1,7 +1,6 @@
 package bts.sio.api.controller;
 
 import bts.sio.api.model.Epreuve;
-import bts.sio.api.model.Sport;
 import bts.sio.api.service.EpreuveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

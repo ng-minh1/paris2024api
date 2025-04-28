@@ -123,11 +123,11 @@ public class ActualiteController {
             }
             String contenu = actualite.getContenu();
             if(contenu != null) {
-                currentActualite.setContenu(contenu);;
+                currentActualite.setContenu(contenu);
             }
             Sport sport = actualite.getSport();
             if(sport != null) {
-                currentActualite.setSport(sport);;
+                currentActualite.setSport(sport);
             }
 
             actualiteService.saveActualite(currentActualite);
