@@ -6,9 +6,18 @@ import bts.sio.api.service.ActualiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.Optional;
 
 @RestController
+@Tag(name = "Actualités", description = "API de gestion des actualités des Jeux Olympiques Paris 2024")
 public class ActualiteController {
 
     @Autowired
@@ -19,8 +28,21 @@ public class ActualiteController {
      * @param actualite An object actualite
      * @return The actualite object saved
      */
+    @Operation(summary = "Créer une nouvelle actualité",
+            description = "Ajoute une nouvelle actualité à la base de données")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Actualité créée avec succès",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Actualite.class)) }),
+            @ApiResponse(responseCode = "400",
+                    description = "Données invalides fournies",
+                    content = @Content)
+    })
     @PostMapping("/actualite")
-    public Actualite createActualite(@RequestBody Actualite actualite) {
+    public Actualite createActualite(
+            @Parameter(description = "Actualité à créer")
+            @RequestBody Actualite actualite) {
         return actualiteService.saveActualite(actualite);
     }
 
@@ -30,8 +52,21 @@ public class ActualiteController {
      * @param id The id of the actualite
      * @return An Actualite object full filled
      */
+    @Operation(summary = "Récupérer une actualité par son ID",
+            description = "Recherche une actualité spécifique par son identifiant")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Actualité trouvée",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Actualite.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "Actualité non trouvée",
+                    content = @Content)
+    })
     @GetMapping("/actualite/{id}")
-    public Actualite getActualite(@PathVariable("id") final Long id) {
+    public Actualite getActualite(
+            @Parameter(description = "ID de l'actualité à récupérer")
+            @PathVariable("id") final Long id) {
         Optional<Actualite> actualite = actualiteService.getActualite(id);
         if(actualite.isPresent()) {
             return actualite.get();
@@ -44,6 +79,12 @@ public class ActualiteController {
      * Read - Get all actualites
      * @return - An Iterable object of Actualite full filled
      */
+    @Operation(summary = "Récupérer toutes les actualités",
+            description = "Renvoie la liste complète des actualités disponibles")
+    @ApiResponse(responseCode = "200",
+            description = "Liste des actualités récupérée avec succès",
+            content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Actualite.class)) })
     @GetMapping("/actualites")
     public Iterable<Actualite> getActualites() {
         return actualiteService.getActualites();
@@ -55,8 +96,23 @@ public class ActualiteController {
      * @param actualite - The actualite object updated
      * @return
      */
+    @Operation(summary = "Mettre à jour une actualité",
+            description = "Met à jour les informations d'une actualité existante")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Actualité mise à jour avec succès",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Actualite.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "Actualité non trouvée",
+                    content = @Content)
+    })
     @PutMapping("/actualite/{id}")
-    public Actualite updateActualite(@PathVariable("id") final Long id, @RequestBody Actualite actualite) {
+    public Actualite updateActualite(
+            @Parameter(description = "ID de l'actualité à mettre à jour")
+            @PathVariable("id") final Long id,
+            @Parameter(description = "Données actualisées de l'actualité")
+            @RequestBody Actualite actualite) {
         Optional<Actualite> e = actualiteService.getActualite(id);
         if(e.isPresent()) {
             Actualite currentActualite = e.get();
@@ -79,11 +135,27 @@ public class ActualiteController {
         } else {
             return null;
 
-
         }
     }
+
+    /**
+     * Delete - Delete an actualite
+     * @param id - The id of the actualite to delete
+     */
+    @Operation(summary = "Supprimer une actualité",
+            description = "Supprime une actualité existante par son identifiant")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Actualité supprimée avec succès",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "Actualité non trouvée",
+                    content = @Content)
+    })
     @DeleteMapping("/actualite/{id}")
-    public void deleteActualite(@PathVariable("id") final Long id) {
+    public void deleteActualite(
+            @Parameter(description = "ID de l'actualité à supprimer")
+            @PathVariable("id") final Long id) {
         actualiteService.deleteActualite(id);
     }
 }
