@@ -7,7 +7,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @RestController
+@Tag(name = "Sports", description = "API de gestion des sports des Jeux Olympiques Paris 2024")
 public class SportController {
 
     @Autowired
@@ -18,8 +27,21 @@ public class SportController {
      * @param sport An object sport
      * @return The sport object saved
      */
+    @Operation(summary = "Créer un nouveau sport",
+            description = "Ajoute un sport à la base de données")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Sport créé avec succès",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Sport.class)) }),
+            @ApiResponse(responseCode = "400",
+                    description = "Données invalides fournies",
+                    content = @Content)
+    })
     @PostMapping("/sport")
-    public Sport createSport(@RequestBody Sport sport) {
+    public Sport createSport(
+            @Parameter(description = "Sport à créer")
+            @RequestBody Sport sport) {
         return sportService.saveSport(sport);
     }
 
@@ -29,20 +51,37 @@ public class SportController {
      * @param id The id of the sport
      * @return An Sport object full filled
      */
+    @Operation(summary = "Récupérer un sport par son ID",
+            description = "Recherche un sport spécifique par son identifiant")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Sport trouvé",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Sport.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "Sport non trouvé",
+                    content = @Content)
+    })
     @GetMapping("/sport/{id}")
-    public Sport getSport(@PathVariable("id") final Long id) {
+    public Sport getSport(
+            @Parameter(description = "ID du sport à récupérer")
+            @PathVariable("id") final Long id) {
         Optional<Sport> sport = sportService.getSport(id);
-        if(sport.isPresent()) {
-            return sport.get();
-        } else {
-            return null;
-        }
+        return sport.orElse(null);
     }
 
     /**
-     * Read - Get all sport
-     * @return - An Iterable object of Athlete full filled
+     * Read - Get all sports
+     * @return - An Iterable object of Sport full filled
      */
+    @Operation(summary = "Récupérer tous les sports",
+            description = "Récupère l'ensemble des sports disponibles")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Liste des sports récupérée",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Sport.class)) })
+    })
     @GetMapping("/sports")
     public Iterable<Sport> getSports() {
         return sportService.getSports();
@@ -52,10 +91,25 @@ public class SportController {
      * Update - Update an existing sport
      * @param id - The id of the sport to update
      * @param sport - The sport object updated
-     * @return
+     * @return Updated sport object
      */
+    @Operation(summary = "Mettre à jour un sport",
+            description = "Met à jour les informations d'un sport existant")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Sport mis à jour avec succès",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Sport.class)) }),
+            @ApiResponse(responseCode = "404",
+                    description = "Sport non trouvé",
+                    content = @Content)
+    })
     @PutMapping("/sport/{id}")
-    public Sport updateSport(@PathVariable("id") final Long id, @RequestBody Sport sport) {
+    public Sport updateSport(
+            @Parameter(description = "ID du sport à mettre à jour")
+            @PathVariable("id") final Long id,
+            @Parameter(description = "Données actualisées du sport")
+            @RequestBody Sport sport) {
         Optional<Sport> e = sportService.getSport(id);
         if(e.isPresent()) {
             Sport currentSport = e.get();
@@ -79,12 +133,23 @@ public class SportController {
 
 
     /**
-     * Delete - Delete an sport
+     * Delete - Delete a sport
      * @param id - The id of the sport to delete
      */
+    @Operation(summary = "Supprimer un sport",
+            description = "Supprime un sport en fonction de son identifiant")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Sport supprimé avec succès",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "Sport non trouvé",
+                    content = @Content)
+    })
     @DeleteMapping("/sport/{id}")
-    public void deleteSport(@PathVariable("id") final Long id) {
+    public void deleteSport(
+            @Parameter(description = "ID du sport à supprimer")
+            @PathVariable("id") final Long id) {
         sportService.deleteSport(id);
     }
-
 }
